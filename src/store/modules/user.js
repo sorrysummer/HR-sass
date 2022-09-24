@@ -15,10 +15,9 @@ const mutations = {
 }
 const actions = {
   async login(context, data) {
-    const { result } = await userLoginApi(data)
-    if (result.success) {
-      context.commit('setToken', result.data)
-    }
+    const result = await userLoginApi(data) /* 拿到token */
+    context.commit('setToken', result) /* 设置token */
+
   }
 }
 

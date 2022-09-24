@@ -71,7 +71,7 @@
 
 <script>
 import { validMobile } from "@/utils/validate";
-
+import { mapActions } from "vuex";
 export default {
   name: "Login",
   data() {
@@ -88,7 +88,7 @@ export default {
     return {
       loginForm: {
         mobile: "13800000002",
-        password: "111111",
+        password: "123456",
       },
       loginRules: {
         mobile: [
@@ -114,6 +114,8 @@ export default {
     },
   },
   methods: {
+    // 加了命名空间，需要路径访问
+    ...mapActions(["user/login"]),
     showPwd() {
       if (this.passwordType === "password") {
         this.passwordType = "";
@@ -125,22 +127,22 @@ export default {
       });
     },
     handleLogin() {
-      this.$refs.loginForm.validate((valid) => {
-        if (valid) {
-          this.loading = true;
-          this.$store
-            .dispatch("user/login", this.loginForm)
-            .then(() => {
-              this.$router.push({ path: this.redirect || "/" });
-              this.loading = false;
-            })
-            .catch(() => {
-              this.loading = false;
-            });
-        } else {
-          console.log("error submit!!");
-          return false;
+      // 获取原生dom，ref作用于组件之上会，可以获取该元素的实例  this
+      // this可以调用组件里的方法
+      this.$refs.loginForm.validate(async (isOk) => {
+        try {
+          if (isOk) {
+            this.loading = true;
+
+            // 调用actions
+            await this["user/login"](this.loginForm);
+
+            this.$router.push("/"); /* this.loginForm为请求参数 */
+          }
+        } catch (error) {
+          console.log(error);
         }
+        this.loading = false;
       });
     },
   },
