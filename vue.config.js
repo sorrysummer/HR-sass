@@ -36,7 +36,14 @@ module.exports = {
       warnings: false,
       errors: true
     },
-
+    proxy: {
+      // 当地址有/api才会触发代理
+      '/api': {
+        target: "http://ihrm.itheima.net/",
+        // 是否跨域
+        changeOrigin: true
+      }
+    }
   },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that
