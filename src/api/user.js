@@ -6,9 +6,16 @@ export const userLogin = (data) => request({
   data
 })
 
-export function getInfo(token) {
+export const getUserInfo = () => request({
+  url: '/sys/profile',
+  method: 'POST',
+})
 
-}
+export const getUserPhoto = (Id) => request({
+  url: `/sys/user/${Id}`,
+  method: 'GET'
+})
+
 
 export function logout() {
 
