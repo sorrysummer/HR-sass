@@ -7,7 +7,7 @@
     />
     <div class="app-breadcrumb">
       西安工业大学教育科技股份有限公司
-      <span class="breadBtn">体验版</span>
+      <span class="breadBtn">正式版</span>
     </div>
     <!-- <breadcrumb class="breadcrumb-container" />   面包屑 -->
 
