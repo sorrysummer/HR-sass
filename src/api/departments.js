@@ -14,3 +14,15 @@ export const newDepartment = (data) => request({
     method: 'POST',
     data
 })
+
+
+export const editDepartmentDetail = (id) => request({
+    url: `/company/department/${id}`,
+})
+
+export const updateDepartment = (data) => request({
+    url: `/company/department/${data.id}`,
+    method: 'PUT',
+    data
+})
+

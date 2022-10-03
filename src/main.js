@@ -11,7 +11,7 @@ import '@/styles/index.scss' // global css
 import App from './App'
 import store from './store'
 import router from './router'
-
+import Component from './components'
 import '@/icons' // icon
 
 // 控制登陆权限
@@ -39,7 +39,7 @@ Object.keys(directives).forEach(key => {
   Vue.directive(key, directives[key]) /* 注册自定义指令 */
 })
 
-
+Vue.use(Component)
 Vue.config.productionTip = false
 
 new Vue({

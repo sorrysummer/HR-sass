@@ -58,9 +58,15 @@ export default {
             return deleteDepartmentApi(this.treeNode.id);
           }) /* 请求成功进入下一个then */
           .then(() => {
+            // 自定义事件，接口数据已修改，修改html的数据
             this.$emit("delete");
             this.$message.success("删除成功");
           });
+      } else if (command === "add") {
+        // 在当前点击部门下添加子部门，所以传出部门信息
+        this.$emit("addFn", this.treeNode);
+      } else {
+        this.$emit("editDept", this.treeNode);
       }
     },
   },

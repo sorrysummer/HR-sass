@@ -3,7 +3,7 @@
     <div class="app-container">
       <!-- 组织架构 -->
       <el-card class="tree-card">
-        <TreeTools :treeNode="company" :isRoot="true" />
+        <TreeTools :treeNode="company" :isRoot="true" @addFn="addFn" />
         <!-- 树结构 -->
         <!-- 作用域插槽，data为每个节点的名称 -->
         <el-tree :data="departs" :props="defaultProps">
@@ -12,10 +12,17 @@
             slot-scope="{ data }"
             :treeNode="data"
             @delete="getData()"
+            @addFn="addFn"
+            @editDept="editDept"
           />
         </el-tree>
       </el-card>
-      <AddDept />
+      <AddDept
+        ref="edit"
+        :isDialog.sync="isDialog"
+        :treeNode="node"
+        @addDept="getData()"
+      />
     </div>
   </div>
 </template>
@@ -30,13 +37,16 @@ export default {
     return {
       company: {
         name: "西安工业大学教育科技股份有限公司",
-        manager: "李航",
+        manager: "总裁:李航",
+        id: "" /* 用来匹配根节点的子部门 */,
       },
       departs: [],
       defaultProps: {
         label: "name",
         children: "children",
       },
+      isDialog: false,
+      node: null /* 记录当前点击的节点 */,
     };
   },
   components: {
@@ -47,14 +57,26 @@ export default {
     this.getData();
   },
   methods: {
+    // 获取部门信息
     async getData() {
       try {
         const data = await getDefaultDataApi();
-        console.log(data);
         this.departs = makeTreeData(data.depts, "");
       } catch (error) {
         console.log(error);
       }
+    },
+    // 添加部门
+    addFn(node) {
+      this.isDialog = true;
+      this.node = node;
+    },
+    // 编辑部门
+    editDept(node) {
+      this.isDialog = true;
+      this.node = node;
+      // 获取组件实例，调用内部方法
+      this.$refs.edit.editDepartments(node.id);
     },
   },
 };
