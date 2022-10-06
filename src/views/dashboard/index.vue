@@ -1,10 +1,7 @@
 <template>
   <div class="dashboard-container">
     <div class="dashboard-text">
-      name:
-      <PageTools :isBeforeShow="true">
-        <el-button slot="before">1111</el-button>
-      </PageTools>
+      <ImageUpload />
     </div>
   </div>
 </template>

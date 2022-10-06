@@ -17,6 +17,3 @@ export const getUserPhoto = (Id) => request({
 })
 
 
-export function logout() {
-
-}

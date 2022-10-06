@@ -1,6 +1,9 @@
 import { userLogin, getUserInfo, getUserPhoto } from "./user";
 import { getDefaultData, deleteDepartment, newDepartment, editDepartmentDetail, updateDepartment } from "./departments";
-import { getSimpleList, getStaffList } from "./employees";
+import {
+    getSimpleList, getStaffList, deleteStaff, addStaff, importStaff, saveStaffInfo, getPersonlInfo, savePersonlInfo,
+    getJobInfo, saveJobInfo
+} from "./employees";
 import { getRoleList, getCompanyList, deleteRole, updateRole, getRoleDetail, addRole } from "./setting";
 export const userLoginApi = userLogin  /* 登陆接口 */
 export const getUserInfoApi = getUserInfo  /* 用户信息接口 */
@@ -14,6 +17,16 @@ export const updateDepartmentApi = updateDepartment  /* 更新部门信息 */
 
 export const getSimpleListApi = getSimpleList /* 获取员工简单列表接口 */
 export const getStaffListApi = getStaffList /* 获取员工列表 */
+export const deleteStaffApi = deleteStaff  /* 删除员工 */
+export const addStaffApi = addStaff /* 新增员工 */
+export const importStaffApi = importStaff /* 导入员工Excel */
+export const saveStaffInfoApi = saveStaffInfo   /*保存员工信息 */
+export const getPersonlInfoApi = getPersonlInfo  /* 获取员工个人信息 */
+export const savePersonlInfoApi = savePersonlInfo  /* 保存员工个人信息 */
+export const getJobInfoApi = getJobInfo   /* 获取员工岗位信息 */
+export const saveJobInfoApi = saveJobInfo   /* 保存员工岗位信息 */
+
+
 
 
 export const getRoleListApi = getRoleList /* 获取所有角色列表 */
