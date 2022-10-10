@@ -8,6 +8,7 @@ import attendancesRouter from './modules/attendances'
 import salarysRouter from './modules/salarys'
 import settingRouter from './modules/setting'
 import socialRouter from './modules/social'
+import userRouter from './modules/user'
 Vue.use(Router)
 
 /* Layout */
@@ -56,7 +57,7 @@ export const constantRoutes = [
     redirect: '/dashboard',
     children: [{
       path: 'dashboard',
-      name: 'Dashboard',
+      name: 'dashboard',
       component: () => import('@/views/dashboard/index'),
       meta: { title: '首页', icon: 'dashboard' }
     }]
@@ -70,8 +71,9 @@ export const constantRoutes = [
       component: () => import('@/views/import')
     }]
   },
+  userRouter  /* 放置静态路由 */
   // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
+
 ]
 // 动态路由
 export const asyncRoutes = [
@@ -84,9 +86,11 @@ export const asyncRoutes = [
   settingRouter,
   socialRouter]
 const createRouter = () => new Router({
-  // mode: 'history', // require service support
+  mode: 'history', // require service support
+  // 基础地址，替换hash
+  base: 'lh/',
   scrollBehavior: () => ({ y: 0 }),
-  routes: [...constantRoutes, ...asyncRoutes]
+  routes: [...constantRoutes]   /* 静态动态路由临时合并 */
 })
 
 const router = createRouter()

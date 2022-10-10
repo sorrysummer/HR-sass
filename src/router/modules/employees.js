@@ -8,6 +8,7 @@ export default {
         // 默认子路由
         path: '',
         component: () => import('@/views/employees'),
+        name: "employees",
         // 路由元信息，存储数据的地方
         meta: {
             title: '员工管理',  /* 左侧导航读取这里的信息 */

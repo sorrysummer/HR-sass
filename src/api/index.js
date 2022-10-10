@@ -2,18 +2,25 @@ import { userLogin, getUserInfo, getUserPhoto } from "./user";
 import { getDefaultData, deleteDepartment, newDepartment, editDepartmentDetail, updateDepartment } from "./departments";
 import {
     getSimpleList, getStaffList, deleteStaff, addStaff, importStaff, saveStaffInfo, getPersonlInfo, savePersonlInfo,
-    getJobInfo, saveJobInfo
+    getJobInfo, saveJobInfo, assignRole
 } from "./employees";
 import { getRoleList, getCompanyList, deleteRole, updateRole, getRoleDetail, addRole } from "./setting";
+import { getAllPermission, addPermission, deletePermission, updatePermission, getDetailPermission, assignRolePermission } from "./permission";
+
+
 export const userLoginApi = userLogin  /* 登陆接口 */
 export const getUserInfoApi = getUserInfo  /* 用户信息接口 */
 export const getUserPhotoApi = getUserPhoto  /* 用户头像接口 */
+
+
 
 export const getDefaultDataApi = getDefaultData  /* 组织架构后台数据接口 */
 export const deleteDepartmentApi = deleteDepartment  /* 删除部门接口 */
 export const newDepartmentApi = newDepartment  /* 新增部门接口 */
 export const editDepartmentDetailApi = editDepartmentDetail /* 获取编辑部门详细信息接口 */
 export const updateDepartmentApi = updateDepartment  /* 更新部门信息 */
+
+
 
 export const getSimpleListApi = getSimpleList /* 获取员工简单列表接口 */
 export const getStaffListApi = getStaffList /* 获取员工列表 */
@@ -25,7 +32,7 @@ export const getPersonlInfoApi = getPersonlInfo  /* 获取员工个人信息 */
 export const savePersonlInfoApi = savePersonlInfo  /* 保存员工个人信息 */
 export const getJobInfoApi = getJobInfo   /* 获取员工岗位信息 */
 export const saveJobInfoApi = saveJobInfo   /* 保存员工岗位信息 */
-
+export const assignRoleApi = assignRole    /* 给员工分配角色 */
 
 
 
@@ -35,3 +42,13 @@ export const deleteRoleApi = deleteRole  /* 删除角色接口 */
 export const updateRoleApi = updateRole /* 更新角色接口 */
 export const getRoleDetailApi = getRoleDetail   /* 根据id获取角色详情 */
 export const addRoleApi = addRole /* 新增角色接口 */
+
+
+
+
+export const getAllPermissionApi = getAllPermission  /* 获取所有权限点 */
+export const addPermissionApi = addPermission  /* 增加权限点 */
+export const deletePermissionApi = deletePermission  /* 根据id删除权限 */
+export const updatePermissionApi = updatePermission  /* 根据id更新权限 */
+export const getDetailPermissionApi = getDetailPermission  /* 根据id获取详情 */
+export const assignRolePermissionApi = assignRolePermission /* 给角色分配权限 */

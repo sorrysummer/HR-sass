@@ -69,7 +69,9 @@
               <el-button type="text" size="small">转正</el-button>
               <el-button type="text" size="small">调岗</el-button>
               <el-button type="text" size="small">离职</el-button>
-              <el-button type="text" size="small">角色</el-button>
+              <el-button type="text" size="small" @click="editRole(row.id)"
+                >角色</el-button
+              >
               <el-button type="text" size="small" @click="deleteStaff(row.id)"
                 >删除</el-button
               >
@@ -107,6 +109,11 @@
           <canvas ref="myCanvas" />
         </el-row>
       </el-dialog>
+      <assign-role
+        ref="assignRole"
+        :showDialog.sync="showDialog"
+        :userId="userId"
+      ></assign-role>
     </div>
   </div>
 </template>
@@ -117,6 +124,7 @@ import EmployeeEnum from "../../api/constant/employees";
 import AddStaff from "./components/add-employee.vue";
 import { formatDate } from "../../filters/index";
 import QrCode from "qrcode";
+import AssignRole from "./components/assign-role.vue";
 export default {
   data() {
     return {
@@ -128,10 +136,13 @@ export default {
       list: [],
       isDialogShow: false,
       showCodeDialog: false,
+      showDialog: false,
+      userId: "",
     };
   },
   components: {
     AddStaff,
+    AssignRole,
   },
   created() {
     this.getStaffList();
@@ -219,6 +230,12 @@ export default {
           // 如果转化的二维码后面信息 是一个地址的话 就会跳转到该地址 如果不是地址就会显示内容
         });
       }
+    },
+
+    async editRole(id) {
+      this.userId = id;
+      await this.$refs.assignRole.getUserPhoto(id);
+      this.showDialog = true;
     },
   },
 };

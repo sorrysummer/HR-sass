@@ -21,10 +21,17 @@ router.beforeEach(async (to, from, next) => {
 
             // 如果没有用户id表示没有获取用户资料
             if (!store.getters.userId) {
-                await store.dispatch('user/getUserInfo') /* await强制等待，避免没有加载完数据就跳转 */
+                const { roles } = await store.dispatch('user/getUserInfo') /* await强制等待，避免没有加载完数据就跳转 */
+                const routes = await store.dispatch('permission/filterRoutes', roles.menus)  /* 把数据传给permission下边filterRoute方法 */
+                router.addRoutes([...routes, { path: '*', redirect: '/404', hidden: true }])  /* 添加路由到路由表 */
+
+                // 已知缺陷，必须多做一次跳转
+                next(to.path)
+            } else {
+                // 不是登陆页，放过通行
+                next()
             }
-            // 不是登陆页，放过通行
-            next()
+
         }
     } else {
         if (whiteList.indexOf(to.path) > -1) {

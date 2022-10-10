@@ -1,5 +1,6 @@
 import { getToken, setToken, removeToken, setTimeStamp, getTimeStamp } from '@/utils/auth'
 import { userLoginApi, getUserInfoApi, getUserPhotoApi } from '@/api'
+import { resetRouter } from '@/router/index'
 
 
 const state = {
@@ -37,11 +38,16 @@ const actions = {
     const result = await getUserPhotoApi(data.userId)
     // const obj =  { ...data, ...result } /* 合并对象 */
     context.commit('setUserInfo', { ...data, ...result }) /* 提交到mutation */
-    return data  /* 后期权限使用 */
+    return data  /* 获取权限使用，返回的数据在permission.js中使用 */
   },
   async logout(context) {
     context.commit('removeToken')
     context.commit('removeUserInfo')
+    // 重置路由
+    resetRouter()
+    // 把添加的动态路由转为[]
+    // 子模块无法调用子模块方法，加第三个参数
+    context.commit('permission/setRoutes', [], { root: true })
   }
 }
 

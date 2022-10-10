@@ -58,3 +58,9 @@ export const saveJobInfo = (data) => request({
     method: 'PUT',
     data
 })
+
+export const assignRole = (data) => request({
+    url: "/sys/user/assignRoles",
+    method: 'put',
+    data
+})

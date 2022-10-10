@@ -2,7 +2,7 @@
   <div class="dashboard-container">
     <div class="app-container">
       <el-card>
-        <el-tabs v-model="activeName">
+        <el-tabs>
           <el-tab-pane label="角色管理" name="first">
             <el-row style="height: 60px">
               <el-button
@@ -29,7 +29,12 @@
               <el-table-column label="操作">
                 <!-- 从作用域结构出row -->
                 <template slot-scope="{ row }">
-                  <el-button size="small" type="success">分配权限</el-button>
+                  <el-button
+                    size="small"
+                    type="success"
+                    @click="assignPe(row.id)"
+                    >分配权限</el-button
+                  >
                   <el-button
                     size="small"
                     type="primary"
@@ -134,6 +139,26 @@
         </el-col>
       </el-row>
     </el-dialog>
+    <el-dialog title="分配权限" :visible="showDialog" @close="btnPeCancel">
+      <el-tree
+        :data="permData"
+        :props="defaultProps"
+        :default-expand-all="true"
+        :show-checkbox="true"
+        :check-strictly="true"
+        :default-checked-keys="selectCheck"
+        node-key="id"
+        ref="check"
+      ></el-tree>
+      <el-row slot="footer" type="flex" justify="center">
+        <el-col :span="6">
+          <el-button type="primary" size="small" @click="btnPeOk">
+            确定</el-button
+          >
+          <el-button size="small" @click="btnPeCancel">取消</el-button>
+        </el-col>
+      </el-row>
+    </el-dialog>
   </div>
 </template>
 
@@ -145,12 +170,21 @@ import {
   updateRoleApi,
   getRoleDetailApi,
   addRoleApi,
+  getAllPermissionApi,
+  assignRolePermissionApi,
 } from "@/api/index";
 import { mapGetters } from "vuex";
+import { makeTreeData } from "../../utils/index";
 export default {
   data() {
     return {
       list: [],
+      roleId: "",
+      permData: [],
+      defaultProps: {
+        label: "name",
+      },
+      selectCheck: [],
       roleForm: { name: "", description: "" },
       rules: {
         name: [
@@ -165,6 +199,7 @@ export default {
       },
       formData: {},
       isDialog: false,
+      showDialog: false /* 控制分配权限弹层 */,
       data: {},
     };
   },
@@ -238,6 +273,29 @@ export default {
       // 根据id获取角色数据后，渲染到弹出层
       this.roleForm = await getRoleDetailApi(id);
       this.isDialog = true;
+    },
+
+    async assignPe(id) {
+      this.roleId = id; /* 保存id */
+      const { permIds } = await getRoleDetailApi(id); /* 当前角色拥有的权限点 */
+      this.selectCheck = permIds;
+      // 把所有权限转化为树形
+      this.permData = makeTreeData(await getAllPermissionApi(), "0");
+      this.showDialog = true;
+    },
+
+    async btnPeOk() {
+      await assignRolePermissionApi({
+        permIds: this.$refs.check.getCheckedKeys(),
+        id: this.roleId,
+      });
+      this.$message.success("分配权限成功");
+      this.showDialog = false; /* 触发close事件，重置数据 */
+    },
+    btnPeCancel() {
+      // 重置默认数据放在取消里
+      this.selectCheck = [];
+      this.showDialog = false;
     },
   },
 };
